@@ -33,7 +33,7 @@ def run_command(command: str):
     def worker():
         keep_running, reply = assistant.execute_command(command)
         if reply:
-            append(f"{assistant.ASSISTANT_NAME}: {reply}")
+            root.after(0, lambda: append(f"{assistant.ASSISTANT_NAME}: {reply}"))
 
     threading.Thread(target=worker, daemon=True).start()
 
@@ -52,7 +52,7 @@ controls.pack(fill="x", padx=8, pady=(0, 8))
 def start_server():
     def worker():
         msg = assistant.start_device_server()
-        append(msg)
+        root.after(0, lambda: append(msg))
 
     threading.Thread(target=worker, daemon=True).start()
 

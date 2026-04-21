@@ -5,6 +5,7 @@
   "reminders": [],
   "memories": [],
   "api_key": "1goPbaUZG3qPP3HpRL0u9MyN",
+  "openai_api_key": "sk-xxxxxx",
   "devices": [
     {
       "name": "Boss Phone",
@@ -115,6 +116,12 @@
       "enabled": false,
       "api_key": "",
       "location": "Mumbai"
+    },
+    "openai": {
+      "enabled": true,
+      "api_key": "sk-xxxxxx",
+      "model": "gpt-4o-mini",
+      "auth_header": "bearer"
     },
     "gemini": {
       "enabled": true,

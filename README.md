@@ -1,8 +1,16 @@
 # Iron Man Assistant (FRIDAY / JARVIS)
 
-This project is a command-based assistant with voice hooks and network control.
+This project is a command-based assistant with voice hooks, a web dashboard, and network control.
 
 ## Quick Start
+
+```bash
+python server.py
+```
+
+Then open `http://127.0.0.1:5050` for the website version of FRIDAY.
+
+If you want the original terminal assistant instead:
 
 ```bash
 python assistant.py
@@ -30,6 +38,14 @@ pip install pyttsx3 SpeechRecognition pyaudio flask
 - `recharge`
 - `protocol passive|defense|stealth`
 - `ai mode assistant|tactical|aggressive`
+
+## Web Dashboard
+
+- Browser chat console for FRIDAY commands
+- Quick action controls for suit actions
+- Live suit telemetry and memory panels
+- Browser microphone input using the Web Speech API
+- Optional browser speech playback for FRIDAY replies
 
 ## Memory Commands
 
