@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>{{ assistant_name }} Command Deck</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@400;500;600;700&family=Share+Tech+Mono&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/site.css') }}">
+</head>
+<body>
+    <div class="backdrop" aria-hidden="true">
+        <div class="glow glow-a"></div>
+        <div class="glow glow-b"></div>
+        <div class="grid"></div>
+        <div class="scanlines"></div>
+        <svg class="hud-ring hud-ring-1" viewBox="0 0 100 100">
+            <circle cx="50" cy="50" r="48" fill="none" stroke="currentColor" stroke-width="0.5" stroke-dasharray="4 2 8 2" opacity="0.3"/>
+            <circle cx="50" cy="50" r="40" fill="none" stroke="currentColor" stroke-width="1" stroke-dasharray="60 40" opacity="0.5"/>
+        </svg>
+        <svg class="hud-ring hud-ring-2" viewBox="0 0 100 100">
+            <circle cx="50" cy="50" r="45" fill="none" stroke="currentColor" stroke-width="0.2" stroke-dasharray="2 4" opacity="0.4"/>
+            <circle cx="50" cy="50" r="30" fill="none" stroke="currentColor" stroke-width="1.5" stroke-dasharray="20 10 5 10" opacity="0.6"/>
+        </svg>
+    </div>
+
+    <main class="shell">
+        <section class="hero panel reveal">
+            <div class="hero-copy">
+                <p class="eyebrow">FRIDAY Server Running</p>
+                <h1>{{ assistant_name }} Web Command Deck</h1>
+                <p class="hero-text">
+                    Deploy the assistant from a browser with live suit telemetry,
+                    memory boards, quick actions, and voice control that stays in the page.
+                </p>
+                <div class="hero-actions">
+                    <button class="action-pill" type="button" data-jump="#console-panel">Open Console</button>
+                    <button class="action-pill" type="button" data-jump="#operations-panel">System View</button>
+                </div>
+            </div>
+            <div class="hero-stats">
+                <article class="mini-card">
+                    <span class="mini-label">Pilot</span>
+                    <strong>{{ user_name }}</strong>
+                </article>
+                <article class="mini-card">
+                    <span class="mini-label">Interface</span>
+                    <strong>Browser Voice</strong>
+                </article>
+                <article class="mini-card">
+                    <span class="mini-label">Refresh</span>
+                    <strong id="sync-time">Syncing...</strong>
+                </article>
+            </div>
+        </section>
+
+        <section class="dashboard">
+            <section class="panel console-panel reveal" id="console-panel">
+                <div class="panel-head">
+                    <div>
+                        <p class="panel-kicker">Command Console</p>
+                        <h2>Talk to {{ assistant_name }}</h2>
+                    </div>
+                    <div class="connection-state" id="connection-state">Connecting</div>
+                </div>
+
+                <div class="conversation" id="conversation" aria-live="polite"></div>
+
+                <form class="composer" id="command-form">
+                    <label class="sr-only" for="command-input">Command</label>
+                    <input
+                        id="command-input"
+                        name="command"
+                        type="text"
+                        placeholder="Try: suit up, diagnostics, remind me buy new armor paint"
+                        autocomplete="off"
+                    >
+                    <button class="send-button" type="submit">Send</button>
+                    <button class="voice-button" id="voice-button" type="button">Mic</button>
+                </form>
+
+                <div class="console-tools">
+                    <label class="toggle">
+                        <input id="speak-toggle" type="checkbox" checked>
+                        <span>Speak replies in browser</span>
+                    </label>
+                    <p class="hint" id="voice-hint">Voice input is loading.</p>
+                </div>
+            </section>
+
+            <aside class="stack" id="operations-panel">
+                <section class="panel status-panel reveal">
+                    <div class="panel-head">
+                        <div>
+                            <p class="panel-kicker">Suit Telemetry</p>
+                            <h2>Live Status</h2>
+                        </div>
+                    </div>
+
+                    <div class="reactor-card">
+                        <div>
+                            <span class="reactor-label">Arc Reactor</span>
+                            <strong id="reactor-value">--%</strong>
+                        </div>
+                        <div class="reactor-bar" aria-hidden="true">
+                            <span id="reactor-fill"></span>
+                        </div>
+                    </div>
+
+                    <div class="status-grid">
+                        <article class="status-chip">
+                            <span>Protocol</span>
+                            <strong id="protocol-value">--</strong>
+                        </article>
+                        <article class="status-chip">
+                            <span>AI Mode</span>
+                            <strong id="ai-mode-value">--</strong>
+                        </article>
+                        <article class="status-chip">
+                            <span>Armor</span>
+                            <strong id="armor-value">--</strong>
+                        </article>
+                        <article class="status-chip">
+                            <span>Flight</span>
+                            <strong id="flight-value">--</strong>
+                        </article>
+                        <article class="status-chip">
+                            <span>Combat</span>
+                            <strong id="combat-value">--</strong>
+                        </article>
+                        <article class="status-chip">
+                            <span>Wake Word</span>
+                            <strong id="wake-word-value">--</strong>
+                        </article>
+                    </div>
+                </section>
+
+                <section class="panel actions-panel reveal">
+                    <div class="panel-head">
+                        <div>
+                            <p class="panel-kicker">Quick Actions</p>
+                            <h2>Mission Shortcuts</h2>
+                        </div>
+                    </div>
+                    <div class="command-grid">
+                        <button type="button" data-command="hello">Hello</button>
+                        <button type="button" data-command="diagnostics">Diagnostics</button>
+                        <button type="button" data-command="arc reactor">Reactor</button>
+                        <button type="button" data-command="recharge">Recharge</button>
+                        <button type="button" data-command="voice info">Voice Info</button>
+                    </div>
+                </section>
+
+                <section class="panel memory-panel reveal">
+                    <div class="panel-head">
+                        <div>
+                            <p class="panel-kicker">Memory Boards</p>
+                            <h2>Recent Context</h2>
+                        </div>
+                    </div>
+
+                    <div class="memory-summary">
+                        <article>
+                            <span>Notes</span>
+                            <strong id="notes-count">0</strong>
+                        </article>
+                        <article>
+                            <span>Reminders</span>
+                            <strong id="reminders-count">0</strong>
+                        </article>
+                        <article>
+                            <span>Memories</span>
+                            <strong id="memories-count">0</strong>
+                        </article>
+                    </div>
+
+                    <div class="memory-columns">
+                        <section>
+                            <h3>Notes</h3>
+                            <ul id="notes-list" class="memory-list"></ul>
+                        </section>
+                        <section>
+                            <h3>Reminders</h3>
+                            <ul id="reminders-list" class="memory-list"></ul>
+                        </section>
+                        <section>
+                            <h3>Memories</h3>
+                            <ul id="memories-list" class="memory-list"></ul>
+                        </section>
+                    </div>
+                </section>
+            </aside>
+        </section>
+    </main>
+
+    <script>
+        window.fridayConfig = {
+            assistantName: "{{ assistant_name }}",
+            userName: "{{ user_name }}"
+        };
+    </script>
+    <script src="{{ url_for('static', filename='js/app.js') }}"></script>
+</body>
+</html>
